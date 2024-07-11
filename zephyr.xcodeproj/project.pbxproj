@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		AD287B412C3AD47600D36621 /* zephyr.h in Headers */ = {isa = PBXBuildFile; fileRef = AD287B402C3AD47600D36621 /* zephyr.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADFB5CFF2C407DB20084140F /* Zephyr.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFB5CFE2C407DB20084140F /* Zephyr.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AD287B3D2C3AD47600D36621 /* zephyr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = zephyr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD287B402C3AD47600D36621 /* zephyr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = zephyr.h; sourceTree = "<group>"; };
+		ADFB5CFE2C407DB20084140F /* Zephyr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zephyr.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				AD287B402C3AD47600D36621 /* zephyr.h */,
+				ADFB5CFE2C407DB20084140F /* Zephyr.swift */,
 			);
 			path = zephyr;
 			sourceTree = "<group>";
@@ -93,6 +96,7 @@
 				TargetAttributes = {
 					AD287B3C2C3AD47600D36621 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -129,6 +133,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADFB5CFF2C407DB20084140F /* Zephyr.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -288,6 +294,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -297,6 +304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
