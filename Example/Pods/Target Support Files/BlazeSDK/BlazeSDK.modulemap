@@ -1,0 +1,6 @@
+framework module BlazeSDK {
+  umbrella header "BlazeSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

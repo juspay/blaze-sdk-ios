@@ -1,0 +1,22 @@
+{
+  "name": "BlazeSDK",
+  "version": "0.1.0",
+  "summary": "A short description of BlazeSDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/32782526/BlazeSDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "32782526": "sahilsinha.dar@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/32782526/BlazeSDK.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "BlazeSDK/Classes/**/*"
+}
