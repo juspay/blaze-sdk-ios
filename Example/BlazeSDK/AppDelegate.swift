@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  BlazeSDK
 //
-//  Created by 32782526 on 10/20/2024.
-//  Copyright (c) 2024 32782526. All rights reserved.
+//  Created by Sahil Sinha on 10/20/2024.
+//  Copyright (c) 2024 Sahil Sinha. All rights reserved.
 //
 
 import UIKit
