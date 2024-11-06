@@ -116,6 +116,44 @@ class ViewController: UIViewController {
         processPayload["action"] = "startCheckout"
         return processPayload
     }
+    
+    @IBAction func onProcessV2(_ sender: Any) {
+        blaze.process(payload: createSDKPayload(payload: createCustomStartCheckoutPayload()))
+
+    }
+    
+    
+    func createCustomStartCheckoutPayload() -> [String: Any] {
+        let cartString = """
+        {
+            "id": "7feaa429-308d-49b7-8461-46bfa4b37ff7",
+            "items": [
+                {
+                    "id": "3aecf419-6823-4581-a093-0c90c5b5e1fc",
+                    "title": "Apple iPhone 7 Plus",
+                    "variantTitle": "256 GB / GOLD",
+                    "image": "https://dfelk5npz6ka0.cloudfront.net/products/40767940985052.jpg",
+                    "quantity": 1,
+                    "initialPrice": 100,
+                    "finalPrice": 100,
+                    "discount": 0
+                }
+            ],
+            "initialPrice": 100,
+            "totalPrice": 100,
+            "totalDiscount": 0,
+            "itemCount": 1,
+            "currency": "INR"
+        }
+        """
+        
+        var processPayload = [String: Any]()
+        processPayload["action"] = "startCheckout"
+        processPayload["cart"] = convertToDictionary(text: cartString)
+        processPayload["signature"] = "T4BRKwHKWfkWRLgF5ecss2+2tyID4zKVUqkfEgdFS73lyAokBq92VJRz4g+xzCcUE84ZNl7oQ9t26i8zGQLgh/B/6vNliM9u7VMX0soYDC9pEWd4TsWeetlYMzl/UIzitYan5q9aQ2UfS7HENHQGvGfOjsa75gP3SVwpufK8Sb1VFRFsnJKsXzgWq+y9iWLieJe596poEzUP2Wkt17mSGwH9rWukTy5S1ddZoZXUxDQiMtfXFj9NOnPDUA8psmERifivaD8IvhMEYwlEk+u6MrxF7IhasBs8dYGEZW+YDeaRz6mzK37sarYWgCUJgEYTJ97rmcRedgvnj+28YES/pw=="
+        processPayload["keyId"] = "90701"
+        return processPayload
+    }
 
     func convertToDictionary(text: String) -> [String: Any]? {
         if let data = text.data(using: .utf8) {

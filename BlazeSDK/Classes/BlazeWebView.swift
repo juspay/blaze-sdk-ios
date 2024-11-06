@@ -76,6 +76,9 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         if eventName == "hideView" {
             hideView()
         }
+        if eventName == "invokeMethod" {
+            handleInvokeMethod(eventDataJson)
+        }
     }
 
     private func sendEvent(event: String, payload: [String: Any]) {
@@ -113,6 +116,79 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     private func hideView() {
         self.webView.removeFromSuperview()
     }
+
+    func openApp(payload: String) -> String {
+        var result = ""
+        if let appURL = URL(string: payload),
+            UIApplication.shared.canOpenURL(appURL)
+        {
+            UIApplication.shared.open(appURL, options: [:]) { success in
+                result =  "openApp: success: \(success)"
+            }
+        } else {
+            result = "openApp: failed: \(payload)"
+        }
+        return result
+    }
+
+    private func getFromStorage(key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
+
+    private func canOpen(payload: String) -> Bool {
+        if let appURL = URL(string: payload) {
+            return UIApplication.shared.canOpenURL(appURL)
+        }
+        return false
+    }
+
+    private func saveToStorage(key: String, value: String) -> Bool {
+        UserDefaults.standard.set(value, forKey: key)
+        return true
+    }
+
+    private func handleInvokeMethod(_ eventData: [String: Any]) {
+        guard let methodName = eventData["methodName"] as? String,
+            let requestId = eventData["requestId"] as? String,
+            let params = eventData["params"] as? String
+        else {
+            return
+        }
+        
+        let paramsJson = safeParseJson(jsonString: params)
+        
+        var invokeResult: [String: Any] = [
+            "requestId": requestId, "methodName": methodName,
+        ]
+
+        switch methodName {
+        case "saveToStorage":
+            if let key = paramsJson["key"] as? String,
+                let value = paramsJson["value"] as? String
+            {
+                invokeResult["methodResult"] = saveToStorage(
+                    key: key, value: value)
+            }
+        case "openApp":
+            if let intentUri = paramsJson["intentUri"] as? String {
+                invokeResult["methodResult"] = openApp(payload: intentUri)
+            }
+        case "getFromStorage":
+            if let key = paramsJson["key"] as? String {
+                let value = getFromStorage(key: key)
+                invokeResult["methodResult"] = ["key": key, "value": value]
+            }
+        case "canOpen":
+            if let payload = paramsJson["payload"] as? String {
+                invokeResult["methodResult"] = canOpen(payload: payload)
+            }
+        default:
+            invokeResult["methodResult"] = "Method not found"
+        }
+
+        sendEvent(event: "invokeMethodResult", payload: invokeResult)
+    }
+
 }
 
 extension BlazeWebView: WKNavigationDelegate {
