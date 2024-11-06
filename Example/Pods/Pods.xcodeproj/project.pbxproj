@@ -450,39 +450,6 @@
 			};
 			name = Release;
 		};
-		191D2EA53E4352736AD606FF97061900 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E207D12FEF5DE603C17D44C6E2BEE8E /* BlazeSDK.release.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/BlazeSDK/BlazeSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/BlazeSDK/BlazeSDK-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BlazeSDK/BlazeSDK.modulemap";
-				PRODUCT_MODULE_NAME = BlazeSDK;
-				PRODUCT_NAME = BlazeSDK;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		4BC7450F9457737EE3E637BA155B56F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -679,7 +646,7 @@
 			};
 			name = Debug;
 		};
-		D61272E417E0B45D04C478F914EF0186 /* Debug */ = {
+		BEC6F49477344435BFDE8A9E4DCD4CA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F36B6CF2DAEA8A16B5404319275F90D /* BlazeSDK.debug.xcconfig */;
 			buildSettings = {
@@ -704,12 +671,45 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
+		};
+		D1C52E2A9D777A776079D3343C0A10A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E207D12FEF5DE603C17D44C6E2BEE8E /* BlazeSDK.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/BlazeSDK/BlazeSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BlazeSDK/BlazeSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BlazeSDK/BlazeSDK.modulemap";
+				PRODUCT_MODULE_NAME = BlazeSDK;
+				PRODUCT_NAME = BlazeSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		FD9C59860C46E317556D5DC040A66222 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -752,8 +752,8 @@
 		39E742ED5F38D9392168C212437CA9C9 /* Build configuration list for PBXNativeTarget "BlazeSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D61272E417E0B45D04C478F914EF0186 /* Debug */,
-				191D2EA53E4352736AD606FF97061900 /* Release */,
+				BEC6F49477344435BFDE8A9E4DCD4CA8 /* Debug */,
+				D1C52E2A9D777A776079D3343C0A10A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
