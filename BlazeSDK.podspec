@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name                   = 'BlazeSDK'
-  spec.version                = "0.2.0"
+  spec.version                = "0.3.0"
   spec.summary                = "Integrate Breeze 1 Click Checkout to your app."
   spec.description            = <<-DESC
                                   BlazeSDK is library which enables you to seamlessly integrate and use Breeze 1 Click Checkout in your iOS app.
