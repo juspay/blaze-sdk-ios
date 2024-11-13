@@ -42,7 +42,9 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
     func terminate() {
         self.sendEvent(event: "terminate", payload: [:])
-        self.webView.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.webView.removeFromSuperview()
+        }
     }
 
     func userContentController(
@@ -93,8 +95,11 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
             let jsonData = try? JSONSerialization.data(
                 withJSONObject: eventMessage)
             let jsonString = String(data: jsonData!, encoding: .utf8)!
-            self.webView.evaluateJavaScript(
-                "onSDKEvent(JSON.stringify(\(jsonString)))")
+            DispatchQueue.main.async {
+                self.webView.evaluateJavaScript(
+                    "onSDKEvent(JSON.stringify(\(jsonString)))")
+            }
+
         } else {
             eventQueue[event] = payload
         }
@@ -109,12 +114,16 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     }
 
     private func renderView() {
-        self.webView.frame = self.context.view.bounds
-        self.context.view.addSubview(self.webView)
+        DispatchQueue.main.async {
+            self.webView.frame = self.context.view.bounds
+            self.context.view.addSubview(self.webView)
+        }
     }
 
     private func hideView() {
-        self.webView.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.webView.removeFromSuperview()
+        }
     }
 
     func openApp(payload: String) -> String {
@@ -123,7 +132,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
             UIApplication.shared.canOpenURL(appURL)
         {
             UIApplication.shared.open(appURL, options: [:]) { success in
-                result =  "openApp: success: \(success)"
+                result = "openApp: success: \(success)"
             }
         } else {
             result = "openApp: failed: \(payload)"
@@ -154,9 +163,9 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         else {
             return
         }
-        
+
         let paramsJson = safeParseJson(jsonString: params)
-        
+
         var invokeResult: [String: Any] = [
             "requestId": requestId, "methodName": methodName,
         ]
