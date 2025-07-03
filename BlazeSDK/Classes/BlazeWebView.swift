@@ -201,5 +201,21 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 }
 
 extension BlazeWebView: WKNavigationDelegate {
-    // Implement WKNavigationDelegate methods if needed
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+
+        if isUPIIntentUri(url), canOpen(payload: url.absoluteString) {
+            openApp(payload: url.absoluteString)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 }
