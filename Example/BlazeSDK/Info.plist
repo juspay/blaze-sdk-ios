@@ -20,6 +20,19 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>credpay</string>
+		<string>phonepe</string>
+		<string>paytmmp</string>
+		<string>tez</string>
+		<string>paytm</string>
+		<string>bhim</string>
+		<string>myairtel</string>
+		<string>slice-upi</string>
+		<string>ppe</string>
+		<string>amazonpay</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -34,19 +47,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>credpay</string>
-		<string>phonepe</string>
-		<string>paytmmp</string>
-		<string>tez</string>
-		<string>paytm</string>
-		<string>bhim</string>
-		<string>myairtel</string>
-		<string>slice-upi</string>
-		<string>ppe</string>
-		<string>amazonpay</string>
 	</array>
 </dict>
 </plist>

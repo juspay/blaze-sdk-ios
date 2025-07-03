@@ -35,3 +35,33 @@ func getBaseUrl(payload: [String: Any]) -> String {
         return "https://app.breeze.in"
     }
 }
+
+
+public func isUPIIntentUri(_ url: URL) -> Bool {
+    guard
+        let scheme = url.scheme?.lowercased(),
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+        let queryItems = components.queryItems,
+        !queryItems.isEmpty
+    else {
+        return false
+    }
+
+    let queryParams = Dictionary(
+        uniqueKeysWithValues: queryItems.map { item in
+            (item.name.lowercased(), item.value ?? "")
+        }
+    )
+    let upiSchemes: Set<String> = [
+        "upi", "phonepe", "tez", "gpay", "paytm", "paytmmp", "bhim",
+        "amazonpay", "mobikwik", "freecharge", "credpay"
+    ]
+
+    let hasPayeeAddress = queryParams["pa"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasPayeeName = queryParams["pn"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasCurrency = queryParams["cu"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasAmount = queryParams["am"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let isKnownScheme = upiSchemes.contains(scheme)
+
+    return hasPayeeAddress && hasPayeeName && hasCurrency && hasAmount && isKnownScheme
+}
