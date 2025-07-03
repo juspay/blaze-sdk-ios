@@ -126,18 +126,12 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         }
     }
 
-    func openApp(payload: String) -> String {
-        var result = ""
+    func openApp(payload: String) {
         if let appURL = URL(string: payload),
             UIApplication.shared.canOpenURL(appURL)
         {
-            UIApplication.shared.open(appURL, options: [:]) { success in
-                result = "openApp: success: \(success)"
-            }
-        } else {
-            result = "openApp: failed: \(payload)"
+            UIApplication.shared.open(appURL, options: [:])
         }
-        return result
     }
 
     private func getFromStorage(key: String) -> String? {
@@ -201,5 +195,21 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 }
 
 extension BlazeWebView: WKNavigationDelegate {
-    // Implement WKNavigationDelegate methods if needed
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationAction: WKNavigationAction,
+        decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ) {
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+
+        if isUPIIntentUri(url), canOpen(payload: url.absoluteString) {
+            openApp(payload: url.absoluteString)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 }
