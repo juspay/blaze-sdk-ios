@@ -10,7 +10,7 @@ func safeParseJson(jsonString: String) -> [String: Any] {
         print("Error: Could not convert string to data.")
         return [:]
     }
-    
+
     do {
         if let json = try JSONSerialization.jsonObject(with: data, options: [])
             as? [String: Any]
@@ -29,13 +29,16 @@ func getBaseUrl(payload: [String: Any]) -> String {
     let environment =
         (payload["payload"] as? [String: Any])?["environment"] as? String
         ?? "release"
-    if environment == "beta" {
+    if environment == "smbBeta" {
+        return "https://app.beta.breezesdk.store"
+    } else if environment == "smbRelease" {
+        return "https://app.breezesdk.store"
+    } else if environment == "beta" {
         return "https://app.beta.breeze.in"
     } else {
         return "https://app.breeze.in"
     }
 }
-
 
 public func isUPIIntentUri(_ url: URL) -> Bool {
     guard
@@ -54,13 +57,17 @@ public func isUPIIntentUri(_ url: URL) -> Bool {
     )
     let upiSchemes: Set<String> = [
         "upi", "phonepe", "tez", "gpay", "paytm", "paytmmp", "bhim",
-        "amazonpay", "mobikwik", "freecharge", "credpay"
+        "amazonpay", "mobikwik", "freecharge", "credpay",
     ]
 
-    let hasPayeeAddress = queryParams["pa"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-    let hasPayeeName = queryParams["pn"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-    let hasCurrency = queryParams["cu"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-    let hasAmount = queryParams["am"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasPayeeAddress =
+        queryParams["pa"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasPayeeName =
+        queryParams["pn"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasCurrency =
+        queryParams["cu"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+    let hasAmount =
+        queryParams["am"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     let isKnownScheme = upiSchemes.contains(scheme)
 
     return hasPayeeAddress && hasPayeeName && hasCurrency && hasAmount && isKnownScheme
