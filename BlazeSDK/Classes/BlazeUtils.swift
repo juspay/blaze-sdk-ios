@@ -64,11 +64,9 @@ public func isUPIIntentUri(_ url: URL) -> Bool {
         queryParams["pa"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     let hasPayeeName =
         queryParams["pn"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-    let hasCurrency =
-        queryParams["cu"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     let hasAmount =
         queryParams["am"]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
     let isKnownScheme = upiSchemes.contains(scheme)
 
-    return hasPayeeAddress && hasPayeeName && hasCurrency && hasAmount && isKnownScheme
+    return hasPayeeAddress && hasPayeeName && hasAmount && isKnownScheme
 }
