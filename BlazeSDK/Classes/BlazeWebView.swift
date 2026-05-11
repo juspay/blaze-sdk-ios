@@ -28,6 +28,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
         self.webView = WKWebView(frame: .zero, configuration: config)
         self.webView.navigationDelegate = self
+        self.webView.scrollView.contentInsetAdjustmentBehavior = .never
 
         if let url = URL(string: getBaseUrl(payload: initiatePayload)) {
             self.webView.load(URLRequest(url: url))
@@ -115,14 +116,16 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
     private func renderView() {
         DispatchQueue.main.async {
-            self.webView.frame = self.context.view.bounds
-            self.context.view.addSubview(self.webView)
+            guard let window = self.context.view.window else { return }
+            self.webView.frame = window.bounds
+            window.addSubview(self.webView)
         }
     }
 
     private func hideView() {
         DispatchQueue.main.async {
             self.webView.removeFromSuperview()
+            self.webView.frame = .zero
         }
     }
 
