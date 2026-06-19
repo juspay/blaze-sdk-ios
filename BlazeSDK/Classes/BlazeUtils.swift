@@ -30,13 +30,13 @@ func getBaseUrl(payload: [String: Any]) -> String {
         (payload["payload"] as? [String: Any])?["environment"] as? String
         ?? "release"
     if environment == "smbBeta" {
-        return "https://app.beta.breezesdk.store"
+        return "https://app.beta.v2.breezesdk.store"
     } else if environment == "smbRelease" {
-        return "https://app.breezesdk.store"
+        return "https://app.v2.breezesdk.store"
     } else if environment == "beta" {
-        return "https://app.beta.breeze.in"
+        return "https://app.beta.v2.breeze.in"
     } else {
-        return "https://app.breeze.in"
+        return "https://app.v2.breeze.in"
     }
 }
 
