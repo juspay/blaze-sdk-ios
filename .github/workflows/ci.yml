@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [release]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint Podspec
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: |
+          xcodebuild -version
+          pod --version
+
+      - name: Lint pod (dynamic framework)
+        run: pod lib lint BlazeSDK.podspec --allow-warnings
+
+      - name: Lint pod (static framework)
+        run: pod lib lint BlazeSDK.podspec --allow-warnings --use-static-frameworks
+
+  test:
+    name: Build & Test Example App
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: |
+          xcodebuild -version
+          pod --version
+
+      - name: Install pods
+        working-directory: Example
+        run: pod install
+
+      - name: Run unit tests
+        working-directory: Example
+        run: |
+          set -o pipefail
+          DEVICE=$(xcrun simctl list devices available --json | jq -r '[.devices | to_entries[] | select(.key | contains("iOS")) | .value[] | select(.isAvailable and (.name | startswith("iPhone")))] | last | .name')
+          if [ -z "$DEVICE" ] || [ "$DEVICE" = "null" ]; then
+            echo "::error::No available iPhone simulator found on this runner"
+            xcrun simctl list devices
+            exit 1
+          fi
+          echo "Using simulator: $DEVICE"
+          xcodebuild clean test \
+            -workspace BlazeSDK.xcworkspace \
+            -scheme BlazeSDK-Example \
+            -destination "platform=iOS Simulator,name=$DEVICE" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: Example/TestResults.xcresult
