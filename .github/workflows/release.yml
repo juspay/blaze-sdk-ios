@@ -1,0 +1,238 @@
+name: Release
+
+on:
+  push:
+    branches: [release]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version override (e.g. 0.7.0). Leave empty to derive from commit messages."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    name: Lint Podspec
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: |
+          xcodebuild -version
+          pod --version
+
+      - name: Lint pod (dynamic framework)
+        run: pod lib lint BlazeSDK.podspec --allow-warnings
+
+      - name: Lint pod (static framework)
+        run: pod lib lint BlazeSDK.podspec --allow-warnings --use-static-frameworks
+
+  test:
+    name: Build & Test Example App
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: |
+          xcodebuild -version
+          pod --version
+
+      - name: Install pods
+        working-directory: Example
+        run: pod install
+
+      - name: Run unit tests
+        working-directory: Example
+        run: |
+          set -o pipefail
+          DEVICE=$(xcrun simctl list devices available --json | jq -r '[.devices | to_entries[] | select(.key | contains("iOS")) | .value[] | select(.isAvailable and (.name | startswith("iPhone")))] | last | .name')
+          if [ -z "$DEVICE" ] || [ "$DEVICE" = "null" ]; then
+            echo "::error::No available iPhone simulator found on this runner"
+            xcrun simctl list devices
+            exit 1
+          fi
+          echo "Using simulator: $DEVICE"
+          xcodebuild clean test \
+            -workspace BlazeSDK.xcworkspace \
+            -scheme BlazeSDK-Example \
+            -destination "platform=iOS Simulator,name=$DEVICE" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: Example/TestResults.xcresult
+
+  release:
+    name: Tag & Publish to CocoaPods
+    needs: [lint, test]
+    runs-on: macos-15
+    timeout-minutes: 60
+    environment: publish
+    steps:
+      - name: Guard branch
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/release" ]; then
+            echo "::error::Releases can only run from the release branch (got $GITHUB_REF)"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        env:
+          VERSION_OVERRIDE: ${{ inputs.version }}
+        run: |
+          SEMVER_RE='^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.]+)?$'
+
+          if [ -n "$VERSION_OVERRIDE" ]; then
+            VERSION="$VERSION_OVERRIDE"
+            echo "Using manual version override: $VERSION"
+          else
+            VERSION=$(git tag --points-at HEAD | grep -E "$SEMVER_RE" | sort -V | tail -1 || true)
+            if [ -n "$VERSION" ]; then
+              echo "Commit is already tagged as $VERSION, resuming that release"
+            fi
+          fi
+
+          if [ -z "$VERSION" ]; then
+            LATEST_TAG=$(git tag --list | grep -E "$SEMVER_RE" | sort -V | tail -1 || true)
+            if [ -n "$LATEST_TAG" ]; then
+              RANGE="$LATEST_TAG..HEAD"
+            else
+              RANGE="HEAD"
+              LATEST_TAG="0.0.0"
+            fi
+            echo "Commits since $LATEST_TAG:"
+            git log --pretty='%h %s' "$RANGE"
+
+            # Max bump across all commits in the range; Jira prefixes (BZ-123: feat: ...) are stripped.
+            SUBJECTS=$(git log --pretty=%s "$RANGE" | sed -E 's/^[A-Z]+-[0-9]+:[[:space:]]*//')
+            BUMP='patch'
+            if git log --pretty=%B "$RANGE" | grep -Eq '^[[:space:]]*BREAKING[- ]CHANGE'; then
+              BUMP='major'
+            elif echo "$SUBJECTS" | grep -Eq '^[a-z]+(\([^)]+\))?!:'; then
+              BUMP='major'
+            elif echo "$SUBJECTS" | grep -Eq '^feat(\([^)]+\))?:'; then
+              BUMP='minor'
+            fi
+            echo "Bump: $BUMP"
+
+            BASE=${LATEST_TAG%%-*}
+            SUFFIX=${LATEST_TAG#"$BASE"}
+            IFS=. read -r MAJOR MINOR PATCH <<< "$BASE"
+            case "$BUMP" in
+              major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+              minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+              patch) PATCH=$((PATCH + 1)) ;;
+            esac
+            VERSION="$MAJOR.$MINOR.$PATCH$SUFFIX"
+          fi
+
+          if ! echo "$VERSION" | grep -Eq "$SEMVER_RE"; then
+            echo "::error::Version '$VERSION' is not valid semver (expected e.g. 0.7.0)"
+            exit 1
+          fi
+
+          if git rev-parse -q --verify "refs/tags/$VERSION" >/dev/null; then
+            if [ "$(git rev-parse "$VERSION^{commit}")" != "$(git rev-parse HEAD)" ]; then
+              echo "::error::Tag $VERSION already exists on a different commit"
+              exit 1
+            fi
+            echo "Tag $VERSION already points at this commit, remaining steps resume idempotently"
+          fi
+
+          PREV_TAG=$(git tag --list | grep -E "$SEMVER_RE" | grep -vxF "$VERSION" | sort -V | tail -1 || true)
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "prev_tag=$PREV_TAG" >> "$GITHUB_OUTPUT"
+          echo "Releasing version: $VERSION"
+
+      - name: Verify CocoaPods trunk authentication
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          if [ -z "$COCOAPODS_TRUNK_TOKEN" ]; then
+            echo "::error::COCOAPODS_TRUNK_TOKEN secret is not set. Add it under Settings > Secrets and variables > Actions (value: the password field under trunk.cocoapods.org in ~/.netrc of a machine registered via 'pod trunk register')."
+            exit 1
+          fi
+          pod trunk me
+
+      - name: Stamp version into podspec
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # Workspace-only change, never committed: the version lives in git tags,
+          # exactly like the Android SDK (gradle -Pversion). BSD sed on the macOS runner.
+          sed -i '' -E "s/(spec\.version[[:space:]]*=[[:space:]]*)\"[^\"]*\"/\1\"$VERSION\"/" BlazeSDK.podspec
+          grep -Eq "spec\.version[[:space:]]*=[[:space:]]*\"$VERSION\"" BlazeSDK.podspec || {
+            echo "::error::Failed to stamp version $VERSION into BlazeSDK.podspec"
+            exit 1
+          }
+          git diff BlazeSDK.podspec
+
+      - name: Create tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          PREV_TAG: ${{ steps.version.outputs.prev_tag }}
+        run: |
+          # Must happen BEFORE the trunk push: pod trunk push validates that the
+          # tag referenced by spec.source exists and contains the source files.
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists, skipping"
+          else
+            ARGS=(--target "$GITHUB_SHA" --title "$VERSION" --generate-notes)
+            if [ -n "$PREV_TAG" ]; then
+              ARGS+=(--notes-start-tag "$PREV_TAG")
+            fi
+            gh release create "$VERSION" "${ARGS[@]}"
+          fi
+
+      - name: Publish to CocoaPods trunk
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if curl -sf -m 30 https://trunk.cocoapods.org/api/v1/pods/BlazeSDK | jq -e --arg v "$VERSION" '.versions[] | select(.name == $v)' >/dev/null; then
+            echo "BlazeSDK $VERSION already exists on CocoaPods trunk, skipping publish"
+          else
+            pod trunk push BlazeSDK.podspec --allow-warnings
+          fi
+
+      - name: Wait for CocoaPods CDN
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          MD5=$(printf '%s' "BlazeSDK" | md5)
+          PREFIX="$(echo "$MD5" | cut -c1)/$(echo "$MD5" | cut -c2)/$(echo "$MD5" | cut -c3)"
+          SPEC_URL="https://cdn.cocoapods.org/Specs/$PREFIX/BlazeSDK/$VERSION/BlazeSDK.podspec.json"
+
+          for i in $(seq 1 40); do
+            if curl -sfL -m 30 "$SPEC_URL" -o /dev/null; then
+              echo "::notice::BlazeSDK $VERSION is live on the CocoaPods CDN: https://cocoapods.org/pods/BlazeSDK"
+              exit 0
+            fi
+            echo "Waiting for CDN sync (attempt $i/40)..."
+            sleep 30
+          done
+
+          echo "::error::Trunk push succeeded but the CDN has not served BlazeSDK $VERSION after 20 minutes. Re-run this workflow to resume (all completed steps skip idempotently), or check https://cocoapods.org/pods/BlazeSDK"
+          exit 1
