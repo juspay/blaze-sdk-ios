@@ -116,9 +116,17 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
     private func renderView() {
         DispatchQueue.main.async {
-            guard let window = self.context.view.window else { return }
-            self.webView.frame = window.bounds
-            window.addSubview(self.webView)
+            let host: UIView
+            if let window = self.context.view.window {
+                host = window
+            } else {
+                print("BlazeSDK: host view has no window, falling back to the view controller's view.")
+                host = self.context.view
+            }
+
+            self.webView.frame = host.bounds
+            self.webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            host.addSubview(self.webView)
         }
     }
 
