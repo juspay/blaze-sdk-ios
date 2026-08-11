@@ -1,6 +1,6 @@
 {
   "name": "BlazeSDK",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "summary": "Integrate Breeze 1 Click Checkout to your app.",
   "description": "BlazeSDK is library which enables you to seamlessly integrate and use Breeze 1 Click Checkout in your iOS app.",
   "homepage": "https://breeze.in/",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/juspay/blaze-sdk-ios.git",
-    "tag": "0.5.0"
+    "tag": "0.6.0"
   },
   "platforms": {
     "ios": "12.0"

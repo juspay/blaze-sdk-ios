@@ -10,6 +10,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     private var context: UIViewController
     private var initiatePayload: [String: Any]
     private var callbackFn: ([String: Any]) -> Void
+    private var isTerminated: Bool = false
 
     init(
         context: UIViewController, initiatePayload: [String: Any],
@@ -29,11 +30,23 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.webView = WKWebView(frame: .zero, configuration: config)
         self.webView.navigationDelegate = self
 
-        if let url = URL(string: getBaseUrl(payload: initiatePayload)) {
+        self.sendEvent(event: "initiate", payload: initiatePayload)
+        self.loadFrame()
+    }
+
+    private func loadFrame() {
+        let fallbackUrl = getBaseUrl(payload: initiatePayload)
+        BlazeConfig.shared.resolveFrameUrl(
+            service: getService(payload: initiatePayload),
+            environment: getEnvironment(payload: initiatePayload)
+        ) { [weak self] frameUrl in
+            guard let self = self, !self.isTerminated,
+                let url = URL(string: frameUrl ?? fallbackUrl)
+            else {
+                return
+            }
             self.webView.load(URLRequest(url: url))
         }
-
-        self.sendEvent(event: "initiate", payload: initiatePayload)
     }
 
     func process(payload: [String: Any]) {
@@ -42,6 +55,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
     func terminate() {
         self.sendEvent(event: "terminate", payload: [:])
+        self.isTerminated = true
         DispatchQueue.main.async {
             self.webView.removeFromSuperview()
         }

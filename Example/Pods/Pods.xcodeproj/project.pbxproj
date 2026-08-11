@@ -8,28 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		0539E57374B15087C62988C59B02389B /* Pods-BlazeSDK_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 511EE42A6AE121B0765ECBD3426854BC /* Pods-BlazeSDK_Example-dummy.m */; };
-		15CEC7A26B543C2EF46479D9C0E24FF2 /* BlazeSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A3721B68E9DE25D90E1AEC74BA7189C /* BlazeSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		23DC0A0B2C2538F1EA592F1CABD76E10 /* Blaze.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C5C4E572747BBAFA05AABE6A0DBBE1 /* Blaze.swift */; };
-		2A28194C345B0C3B45A8D4FE7182A7DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		0B4F3E390A26E2D980D268396A09181A /* BlazeWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775230A35C18133098D42042F9524502 /* BlazeWebView.swift */; };
+		1BA80F6AC8029F0E703FA47E6A62C4CC /* BlazeSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CEAFF34474D86E3F1B3A7DB6C76C27 /* BlazeSDK-dummy.m */; };
 		43A2B2953C5AD5B736A1037F6A5BE785 /* Pods-BlazeSDK_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0520BE8C2182B73161C05F5A4FD4A522 /* Pods-BlazeSDK_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		465447324C8C9112E3D0FB3F48157BE6 /* BlazeSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7E98AE8B8E791D11CD93586B2E445F /* BlazeSDK-dummy.m */; };
 		5E1913609A5C9052E3E2064FAFC0DB98 /* Pods-BlazeSDK_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D92A119FC6A14A7E4CD3A7A00EF9D04 /* Pods-BlazeSDK_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		857803B7DA0C9558DDE6ADB003E3311D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
 		86481900BEB4EF5E2596DCC72CBE3561 /* Pods-BlazeSDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F37E20D41F915C76D605959E2395E99 /* Pods-BlazeSDK_Tests-dummy.m */; };
-		8A0150EDCED6C59B1CA02F87E14EE7C4 /* BlazeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D8053DD4ABC6018D5E7A402E34F99 /* BlazeUtils.swift */; };
-		9974846CA13E65F22B39A3CDA5582929 /* BlazeWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A01795822961E7B13CEA4C5EF9D83E /* BlazeWebView.swift */; };
+		87CD57743C86BE6F72DB688EFA68BA1B /* BlazeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B93B742885BDD7B389BDA951BA6D8 /* BlazeConfig.swift */; };
 		A12E6E619A3E069CC2F8FCC1D083366E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		A525142BEABB549EEFC275A5BA742987 /* BlazeSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C253126B77D96E4F812B77870D0366A /* BlazeSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE1325593D42A1BD7CB4E4F2872164B2 /* Blaze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C305707A5BA4BDDDCB5F60683C3922E /* Blaze.swift */; };
+		D4BA8FC78FA4822DF61E90B3D1A6E20F /* BlazeUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0430179B61BFC3169A10F8297F13C77 /* BlazeUtils.swift */; };
+		E170F26F6C91322F9D424835DADF5D37 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		F4965C93D811A0F795C49AE5EFF4F440 /* BlazeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1FB26D3B72D46182DBA9E9AD504654 /* BlazeConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C949380F193B1C912AD2613F4A85668E /* PBXContainerItemProxy */ = {
+		1C8E530319BDEC245D0CBD51376C7942 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8A927160513419E0C057841EBC63D82F;
 			remoteInfo = "Pods-BlazeSDK_Example";
 		};
-		F5F9030A2F3250B22753B40A3681CD4A /* PBXContainerItemProxy */ = {
+		AF4824AFDAF52C47F4A37AEE3C048EC8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -40,38 +42,40 @@
 
 /* Begin PBXFileReference section */
 		0520BE8C2182B73161C05F5A4FD4A522 /* Pods-BlazeSDK_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BlazeSDK_Tests-umbrella.h"; sourceTree = "<group>"; };
-		0AAA1E1C852DFAE48F0E6AF9548D2479 /* BlazeSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = BlazeSDK.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		11C8B62E833EFFC367CA0D234F04558B /* BlazeSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BlazeSDK.modulemap; sourceTree = "<group>"; };
 		167932014FAC60C375F9C23FBC75B4B0 /* Pods-BlazeSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlazeSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		185DCABA7185674E11ABD3F115913419 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		18E0FB4B25C19793D4A59F773A54C45D /* Pods-BlazeSDK_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BlazeSDK_Example.modulemap"; sourceTree = "<group>"; };
+		1B8143065308AE866AB33EF2DF170D3C /* BlazeSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "BlazeSDK-Info.plist"; sourceTree = "<group>"; };
+		1C1FB26D3B72D46182DBA9E9AD504654 /* BlazeConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeConstants.swift; path = BlazeSDK/Classes/BlazeConstants.swift; sourceTree = "<group>"; };
 		1D92A119FC6A14A7E4CD3A7A00EF9D04 /* Pods-BlazeSDK_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BlazeSDK_Example-umbrella.h"; sourceTree = "<group>"; };
+		251B93B742885BDD7B389BDA951BA6D8 /* BlazeConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeConfig.swift; path = BlazeSDK/Classes/BlazeConfig.swift; sourceTree = "<group>"; };
 		273DD6AF5DC6AF421F2C5620DB3F99FB /* Pods-BlazeSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlazeSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		2C9D8053DD4ABC6018D5E7A402E34F99 /* BlazeUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeUtils.swift; path = BlazeSDK/Classes/BlazeUtils.swift; sourceTree = "<group>"; };
 		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		3F86AB5C8074956620E5199AD6248143 /* BlazeSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BlazeSDK; path = BlazeSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4A3721B68E9DE25D90E1AEC74BA7189C /* BlazeSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BlazeSDK-umbrella.h"; sourceTree = "<group>"; };
 		511EE42A6AE121B0765ECBD3426854BC /* Pods-BlazeSDK_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BlazeSDK_Example-dummy.m"; sourceTree = "<group>"; };
 		52FF69AABBD151B737C72E41F3353850 /* Pods-BlazeSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlazeSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		57A01795822961E7B13CEA4C5EF9D83E /* BlazeWebView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeWebView.swift; path = BlazeSDK/Classes/BlazeWebView.swift; sourceTree = "<group>"; };
+		5C253126B77D96E4F812B77870D0366A /* BlazeSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BlazeSDK-umbrella.h"; sourceTree = "<group>"; };
+		5C305707A5BA4BDDDCB5F60683C3922E /* Blaze.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Blaze.swift; path = BlazeSDK/Classes/Blaze.swift; sourceTree = "<group>"; };
+		6021FF6D19D8B448BFC082C1BC1AE21C /* BlazeSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = BlazeSDK.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		669BE5926C10854F4FCDDE53B64CFFF6 /* Pods-BlazeSDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-BlazeSDK_Example"; path = Pods_BlazeSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C57A5BE12EC2C2F2AD34AFBCC36C7CA /* Pods-BlazeSDK_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BlazeSDK_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6FD726EFDF911225F78C423B1FD69861 /* Pods-BlazeSDK_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlazeSDK_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		775230A35C18133098D42042F9524502 /* BlazeWebView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeWebView.swift; path = BlazeSDK/Classes/BlazeWebView.swift; sourceTree = "<group>"; };
 		777BA97E2BEFBB6B32918F76EBEFC333 /* Pods-BlazeSDK_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-BlazeSDK_Tests"; path = Pods_BlazeSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7F36B6CF2DAEA8A16B5404319275F90D /* BlazeSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BlazeSDK.debug.xcconfig; sourceTree = "<group>"; };
-		8A7E98AE8B8E791D11CD93586B2E445F /* BlazeSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BlazeSDK-dummy.m"; sourceTree = "<group>"; };
+		78CEAFF34474D86E3F1B3A7DB6C76C27 /* BlazeSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BlazeSDK-dummy.m"; sourceTree = "<group>"; };
+		7A4095C4C8318479209D76E06B48538B /* BlazeSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BlazeSDK.debug.xcconfig; sourceTree = "<group>"; };
+		833345FCA059C436262DEBD74D250454 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		8AB93094389E80CAB49F76112B306D59 /* Pods-BlazeSDK_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BlazeSDK_Example-frameworks.sh"; sourceTree = "<group>"; };
 		8F37E20D41F915C76D605959E2395E99 /* Pods-BlazeSDK_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BlazeSDK_Tests-dummy.m"; sourceTree = "<group>"; };
+		9A5654DB0F3B3C3AC3C946595ED2CAEA /* BlazeSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BlazeSDK-prefix.pch"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9E207D12FEF5DE603C17D44C6E2BEE8E /* BlazeSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BlazeSDK.release.xcconfig; sourceTree = "<group>"; };
+		A482418D1D5C51B96D116C6403A06E32 /* BlazeSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BlazeSDK.modulemap; sourceTree = "<group>"; };
+		A4A58930EA545BB92A8561C4151222FC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		AD47371F8CA307A47E585330C22C6A52 /* Pods-BlazeSDK_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlazeSDK_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		B285C04751447B7791D3F893F5A9B70B /* BlazeSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BlazeSDK-prefix.pch"; sourceTree = "<group>"; };
-		B76CA3D31AAC2BEA81633944BE338244 /* BlazeSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "BlazeSDK-Info.plist"; sourceTree = "<group>"; };
 		BAD83FD7BE00F13BBF0B02E41E4D26F0 /* Pods-BlazeSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BlazeSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		C0430179B61BFC3169A10F8297F13C77 /* BlazeUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlazeUtils.swift; path = BlazeSDK/Classes/BlazeUtils.swift; sourceTree = "<group>"; };
 		C4C3687BA4A583539356447A7B9432BD /* Pods-BlazeSDK_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BlazeSDK_Tests.modulemap"; sourceTree = "<group>"; };
 		CA4B6918ED819EEC001D454825903582 /* Pods-BlazeSDK_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlazeSDK_Tests-Info.plist"; sourceTree = "<group>"; };
-		DE2F6BE69F4C010E8BF8C71EB6ED2507 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		E6C5C4E572747BBAFA05AABE6A0DBBE1 /* Blaze.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Blaze.swift; path = BlazeSDK/Classes/Blaze.swift; sourceTree = "<group>"; };
+		E246F0D1D44C6F59D3CB49BD71C12E1D /* BlazeSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BlazeSDK.release.xcconfig; sourceTree = "<group>"; };
 		F568EA01E5979D09B45D9FFBD09C28ED /* Pods-BlazeSDK_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BlazeSDK_Example-Info.plist"; sourceTree = "<group>"; };
 		F67A5031C81C91CBA57982D82EC127D9 /* Pods-BlazeSDK_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BlazeSDK_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,14 +89,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2DD4244E47CDC2B84E0571DEAD550578 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2A28194C345B0C3B45A8D4FE7182A7DE /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7F6E8065299C5F32759AB1777C3C6981 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,9 +97,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4C15314BC9E74319C7B73BECD8C5C65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E170F26F6C91322F9D424835DADF5D37 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39C656B131FC260C81100303490E1A65 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				6021FF6D19D8B448BFC082C1BC1AE21C /* BlazeSDK.podspec */,
+				833345FCA059C436262DEBD74D250454 /* LICENSE */,
+				A4A58930EA545BB92A8561C4151222FC /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
 		5CF43CE226F406E81DF3D6A7EF858216 /* Pods-BlazeSDK_Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,27 +134,19 @@
 			path = "Target Support Files/Pods-BlazeSDK_Tests";
 			sourceTree = "<group>";
 		};
-		89CC219A90AB21C00ABDCBA7C73FB4E9 /* Pod */ = {
+		5D6DB874EFD09F4311EF61435A3A42F9 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				0AAA1E1C852DFAE48F0E6AF9548D2479 /* BlazeSDK.podspec */,
-				DE2F6BE69F4C010E8BF8C71EB6ED2507 /* LICENSE */,
-				185DCABA7185674E11ABD3F115913419 /* README.md */,
+				A482418D1D5C51B96D116C6403A06E32 /* BlazeSDK.modulemap */,
+				78CEAFF34474D86E3F1B3A7DB6C76C27 /* BlazeSDK-dummy.m */,
+				1B8143065308AE866AB33EF2DF170D3C /* BlazeSDK-Info.plist */,
+				9A5654DB0F3B3C3AC3C946595ED2CAEA /* BlazeSDK-prefix.pch */,
+				5C253126B77D96E4F812B77870D0366A /* BlazeSDK-umbrella.h */,
+				7A4095C4C8318479209D76E06B48538B /* BlazeSDK.debug.xcconfig */,
+				E246F0D1D44C6F59D3CB49BD71C12E1D /* BlazeSDK.release.xcconfig */,
 			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
-		8ED9EB93587C4195CB61956E8035EE13 /* BlazeSDK */ = {
-			isa = PBXGroup;
-			children = (
-				E6C5C4E572747BBAFA05AABE6A0DBBE1 /* Blaze.swift */,
-				2C9D8053DD4ABC6018D5E7A402E34F99 /* BlazeUtils.swift */,
-				57A01795822961E7B13CEA4C5EF9D83E /* BlazeWebView.swift */,
-				89CC219A90AB21C00ABDCBA7C73FB4E9 /* Pod */,
-				B6940E048772F19F0DEF56C909421C38 /* Support Files */,
-			);
-			name = BlazeSDK;
-			path = ../..;
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/BlazeSDK";
 			sourceTree = "<group>";
 		};
 		9E4722EF844940DBF2240F3E1804034D /* Products */ = {
@@ -170,26 +176,19 @@
 			path = "Target Support Files/Pods-BlazeSDK_Example";
 			sourceTree = "<group>";
 		};
-		B6940E048772F19F0DEF56C909421C38 /* Support Files */ = {
+		B22BCA160BA16352E54688CBCDA1CAEC /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				11C8B62E833EFFC367CA0D234F04558B /* BlazeSDK.modulemap */,
-				8A7E98AE8B8E791D11CD93586B2E445F /* BlazeSDK-dummy.m */,
-				B76CA3D31AAC2BEA81633944BE338244 /* BlazeSDK-Info.plist */,
-				B285C04751447B7791D3F893F5A9B70B /* BlazeSDK-prefix.pch */,
-				4A3721B68E9DE25D90E1AEC74BA7189C /* BlazeSDK-umbrella.h */,
-				7F36B6CF2DAEA8A16B5404319275F90D /* BlazeSDK.debug.xcconfig */,
-				9E207D12FEF5DE603C17D44C6E2BEE8E /* BlazeSDK.release.xcconfig */,
+				F0FFCB0CE517F996610AEE63D9481C9C /* BlazeSDK */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/BlazeSDK";
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				EC81D7414844532C6D8CC0C5D3516BBC /* Development Pods */,
+				B22BCA160BA16352E54688CBCDA1CAEC /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				9E4722EF844940DBF2240F3E1804034D /* Products */,
 				D12DA729959ECF4DF4D2518D44FA3CB9 /* Targets Support Files */,
@@ -221,30 +220,37 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		EC81D7414844532C6D8CC0C5D3516BBC /* Development Pods */ = {
+		F0FFCB0CE517F996610AEE63D9481C9C /* BlazeSDK */ = {
 			isa = PBXGroup;
 			children = (
-				8ED9EB93587C4195CB61956E8035EE13 /* BlazeSDK */,
+				5C305707A5BA4BDDDCB5F60683C3922E /* Blaze.swift */,
+				251B93B742885BDD7B389BDA951BA6D8 /* BlazeConfig.swift */,
+				1C1FB26D3B72D46182DBA9E9AD504654 /* BlazeConstants.swift */,
+				C0430179B61BFC3169A10F8297F13C77 /* BlazeUtils.swift */,
+				775230A35C18133098D42042F9524502 /* BlazeWebView.swift */,
+				39C656B131FC260C81100303490E1A65 /* Pod */,
+				5D6DB874EFD09F4311EF61435A3A42F9 /* Support Files */,
 			);
-			name = "Development Pods";
+			name = BlazeSDK;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		48F206FE63F75037014640B311241139 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				15CEC7A26B543C2EF46479D9C0E24FF2 /* BlazeSDK-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B3137B9CDBDA00F0E8741277AC4BEC66 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				43A2B2953C5AD5B736A1037F6A5BE785 /* Pods-BlazeSDK_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B973E8038E7E4396D6EBA906E076B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A525142BEABB549EEFC275A5BA742987 /* BlazeSDK-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,12 +267,12 @@
 /* Begin PBXNativeTarget section */
 		335BCBCBF84195F201515ADE6959875D /* BlazeSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 065F913F9B80A6550CEC468008090D2E /* Build configuration list for PBXNativeTarget "BlazeSDK" */;
+			buildConfigurationList = 8CABB136A2DECD262B82E25ED1A53994 /* Build configuration list for PBXNativeTarget "BlazeSDK" */;
 			buildPhases = (
-				48F206FE63F75037014640B311241139 /* Headers */,
-				403B237177BA3E5FB2D12B668BFD944E /* Sources */,
-				2DD4244E47CDC2B84E0571DEAD550578 /* Frameworks */,
-				87B99295532DDC3E783D9ED5D1DADABA /* Resources */,
+				C5B973E8038E7E4396D6EBA906E076B0 /* Headers */,
+				17E74721694ED16C37BF99A88BDBA824 /* Sources */,
+				C4C15314BC9E74319C7B73BECD8C5C65 /* Frameworks */,
+				CB589840BAA883819633FDBE45EE3449 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -289,7 +295,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				9DB0CD579D055139D0464DD53B958F52 /* PBXTargetDependency */,
+				89817743472BD321ADF98CE19D81F609 /* PBXTargetDependency */,
 			);
 			name = "Pods-BlazeSDK_Tests";
 			productName = Pods_BlazeSDK_Tests;
@@ -308,7 +314,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				ADA348C7D7CF107254912976A76AF1B6 /* PBXTargetDependency */,
+				7C7838F8BC201023956C6B0B5385C5A2 /* PBXTargetDependency */,
 			);
 			name = "Pods-BlazeSDK_Example";
 			productName = Pods_BlazeSDK_Example;
@@ -347,13 +353,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		87B99295532DDC3E783D9ED5D1DADABA /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		96C3B663BC1A5A02E70BF8D1D2C06CA1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -368,25 +367,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB589840BAA883819633FDBE45EE3449 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		17E74721694ED16C37BF99A88BDBA824 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE1325593D42A1BD7CB4E4F2872164B2 /* Blaze.swift in Sources */,
+				87CD57743C86BE6F72DB688EFA68BA1B /* BlazeConfig.swift in Sources */,
+				F4965C93D811A0F795C49AE5EFF4F440 /* BlazeConstants.swift in Sources */,
+				1BA80F6AC8029F0E703FA47E6A62C4CC /* BlazeSDK-dummy.m in Sources */,
+				D4BA8FC78FA4822DF61E90B3D1A6E20F /* BlazeUtils.swift in Sources */,
+				0B4F3E390A26E2D980D268396A09181A /* BlazeWebView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3E463E542A48E2869AC01666AF0CE565 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0539E57374B15087C62988C59B02389B /* Pods-BlazeSDK_Example-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		403B237177BA3E5FB2D12B668BFD944E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				23DC0A0B2C2538F1EA592F1CABD76E10 /* Blaze.swift in Sources */,
-				465447324C8C9112E3D0FB3F48157BE6 /* BlazeSDK-dummy.m in Sources */,
-				8A0150EDCED6C59B1CA02F87E14EE7C4 /* BlazeUtils.swift in Sources */,
-				9974846CA13E65F22B39A3CDA5582929 /* BlazeWebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,17 +409,17 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9DB0CD579D055139D0464DD53B958F52 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-BlazeSDK_Example";
-			target = 8A927160513419E0C057841EBC63D82F /* Pods-BlazeSDK_Example */;
-			targetProxy = C949380F193B1C912AD2613F4A85668E /* PBXContainerItemProxy */;
-		};
-		ADA348C7D7CF107254912976A76AF1B6 /* PBXTargetDependency */ = {
+		7C7838F8BC201023956C6B0B5385C5A2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BlazeSDK;
 			target = 335BCBCBF84195F201515ADE6959875D /* BlazeSDK */;
-			targetProxy = F5F9030A2F3250B22753B40A3681CD4A /* PBXContainerItemProxy */;
+			targetProxy = AF4824AFDAF52C47F4A37AEE3C048EC8 /* PBXContainerItemProxy */;
+		};
+		89817743472BD321ADF98CE19D81F609 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-BlazeSDK_Example";
+			target = 8A927160513419E0C057841EBC63D82F /* Pods-BlazeSDK_Example */;
+			targetProxy = 1C8E530319BDEC245D0CBD51376C7942 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -554,43 +562,6 @@
 			};
 			name = Debug;
 		};
-		873035C9F5E29DC7BC9DBDB2CE2BC9D6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E207D12FEF5DE603C17D44C6E2BEE8E /* BlazeSDK.release.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				GCC_PREFIX_HEADER = "Target Support Files/BlazeSDK/BlazeSDK-prefix.pch";
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Target Support Files/BlazeSDK/BlazeSDK-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BlazeSDK/BlazeSDK.modulemap";
-				PRODUCT_MODULE_NAME = BlazeSDK;
-				PRODUCT_NAME = BlazeSDK;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		8B5A46FF8D3C1289CDEE3BAFACABCD2A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -653,9 +624,9 @@
 			};
 			name = Release;
 		};
-		93B6BADC6AD973B27A4330A06C187401 /* Debug */ = {
+		B7546CC4A8A2B2EC2B77E485450E703D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F36B6CF2DAEA8A16B5404319275F90D /* BlazeSDK.debug.xcconfig */;
+			baseConfigurationReference = 7A4095C4C8318479209D76E06B48538B /* BlazeSDK.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -763,18 +734,46 @@
 			};
 			name = Release;
 		};
+		F649EF3B91F238B3F9A6A075E9764704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E246F0D1D44C6F59D3CB49BD71C12E1D /* BlazeSDK.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_PREFIX_HEADER = "Target Support Files/BlazeSDK/BlazeSDK-prefix.pch";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Target Support Files/BlazeSDK/BlazeSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BlazeSDK/BlazeSDK.modulemap";
+				PRODUCT_MODULE_NAME = BlazeSDK;
+				PRODUCT_NAME = BlazeSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		065F913F9B80A6550CEC468008090D2E /* Build configuration list for PBXNativeTarget "BlazeSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				93B6BADC6AD973B27A4330A06C187401 /* Debug */,
-				873035C9F5E29DC7BC9DBDB2CE2BC9D6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		32E88BE91CB52A52F10804B58675C594 /* Build configuration list for PBXNativeTarget "Pods-BlazeSDK_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -798,6 +797,15 @@
 			buildConfigurations = (
 				7D11D4A5D5C8AAC5CA27EBB338F590C9 /* Debug */,
 				E4251E344552577C24EA8E86D9C9B874 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CABB136A2DECD262B82E25ED1A53994 /* Build configuration list for PBXNativeTarget "BlazeSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7546CC4A8A2B2EC2B77E485450E703D /* Debug */,
+				F649EF3B91F238B3F9A6A075E9764704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
