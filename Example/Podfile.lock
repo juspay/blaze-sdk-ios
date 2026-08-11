@@ -1,5 +1,5 @@
 PODS:
-  - BlazeSDK (0.5.0)
+  - BlazeSDK (0.6.0)
 
 DEPENDENCIES:
   - BlazeSDK (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BlazeSDK: 36bac8dffec2c17767ae2b5215eec1cd8a56facc
+  BlazeSDK: 479b4b15f212fe330698bb9497c027660c7f2edd
 
 PODFILE CHECKSUM: bc14dae65da414a2ae2559914e6e421d58100ef1
 

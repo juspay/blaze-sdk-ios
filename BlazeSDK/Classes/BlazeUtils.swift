@@ -25,10 +25,25 @@ func safeParseJson(jsonString: String) -> [String: Any] {
     return [:]
 }
 
-func getBaseUrl(payload: [String: Any]) -> String {
+func getEnvironment(payload: [String: Any]) -> String {
     let environment =
         (payload["payload"] as? [String: Any])?["environment"] as? String
-        ?? "release"
+    if let environment = environment, !environment.isEmpty {
+        return environment
+    }
+    return "release"
+}
+
+func getService(payload: [String: Any]) -> String {
+    return payload["service"] as? String ?? ""
+}
+
+func getBaseUrl(payload: [String: Any]) -> String {
+    if getService(payload: payload) == "in.breeze.shop" {
+        return "https://shop.breeze.in/sdk"
+    }
+
+    let environment = getEnvironment(payload: payload)
     if environment == "smbBeta" {
         return "https://app.beta.v2.breezesdk.store"
     } else if environment == "smbRelease" {
