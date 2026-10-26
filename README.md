@@ -16,6 +16,8 @@ The Blaze SDK is an easy-to-use toolkit that allows you to effortlessly integrat
 
 Follow the below steps to integrate Blaze SDK into your iOS application:
 
+These steps open one-click checkout (`in.breeze.onecco`). For agentic commerce (`in.breeze.shop`), see [Agentic commerce](#agentic-commerce).
+
 ### Step 1: Obtaining the Blaze SDK
 
 Add BlazeSDK with Swift Package Manager or CocoaPods. Both include the SDK's privacy manifest (`PrivacyInfo.xcprivacy`).
@@ -72,6 +74,8 @@ class ViewController: UIViewController {
 
 **2.2. Initiate the Blaze instance.**
 
+Call `initiate` once per `Blaze` instance. Further calls are ignored, even after `terminate`; create a new `Blaze` instance to initiate again.
+
 In order to call initiate you need to perform the following steps:
 
 #### 2.2.1: Construct the Initiate Payload
@@ -94,13 +98,21 @@ initSDKPayload["payload"] = initiatePayload
 
 > **Note:** Obtain values for `merchantId`, `environment` and `shopUrl` from the Breeze team.
 
+All three are required; if one is missing, the `initiate` answer has `error: true`. `environment` is `beta`, `release`, `smbBeta` or `smbRelease`, and decides which Breeze environment the SDK loads.
+
 #### 2.2.2: Construct the Callback Method
 
 During the user journey the SDK will call the callback method with the result of the SDK operation. You need to implement this method in order to handle the result of the SDK operation.
 
+The callback receives a dictionary with `requestId`, `service` and `payload`. `payload["eventName"]` names the event: the first is `initiate`, in answer to your `initiate` call, and the rest depend on the service and the journey.
+
+If the SDK could not read your payload, or an action failed, `payload["error"]` is `true` and `payload["errorDetails"]` says why.
+
+The SDK calls the callback on the main thread.
+
 ```swift
 func blazeCallbackHandler(event: [String: Any]) {
-    if let eventName = event["eventName"] as? String {
+    if let payload = event["payload"] as? [String: Any], let eventName = payload["eventName"] as? String {
         switch eventName {
         // Handle various events according to your desired logic
         default:
@@ -179,7 +191,7 @@ class ViewController: UIViewController {
 
     // 2.2.2: Creating a Callback handler
     func blazeCallbackHandler(event: [String: Any]) {
-        if let eventName = event["eventName"] as? String {
+        if let payload = event["payload"] as? [String: Any], let eventName = payload["eventName"] as? String {
             switch eventName {
             // Handle various events according to your desired logic
             default:
@@ -221,7 +233,7 @@ blaze.process(payload: processSDKPayload)
 
 ### Step 4: Terminate the SDK
 
-When you are done with the SDK, call the `terminate` method to clean up resources.
+When you are done with the SDK, call the `terminate` method to clean up resources. It closes the journey and removes the SDK's view. To use the SDK again, create a new `Blaze` instance and call `initiate` on it.
 
 ```swift
 blaze.terminate()
@@ -234,12 +246,16 @@ In order to allow the SDK to launch UPI apps in UPI intent flow, you need to add
 ```xml
 <key>LSApplicationQueriesSchemes</key>
 <array>
+    <string>upi</string>
     <string>credpay</string>
     <string>phonepe</string>
     <string>paytmmp</string>
     <string>tez</string>
+    <string>gpay</string>
     <string>paytm</string>
     <string>bhim</string>
+    <string>mobikwik</string>
+    <string>freecharge</string>
     <string>myairtel</string>
     <string>slice-upi</string>
     <string>ppe</string>
@@ -251,16 +267,83 @@ This declares the URL schemes for UPI apps that the SDK may attempt to open. Wit
 
 | Scheme       | App              |
 |--------------|------------------|
+| `upi`        | Any UPI app      |
 | `credpay`    | CRED             |
 | `phonepe`    | PhonePe          |
 | `paytmmp`    | Paytm            |
 | `tez`        | Google Pay       |
+| `gpay`       | Google Pay       |
 | `paytm`      | Paytm            |
 | `bhim`       | BHIM             |
+| `mobikwik`   | MobiKwik         |
+| `freecharge` | Freecharge       |
 | `myairtel`   | Airtel Thanks    |
 | `slice-upi`  | Slice            |
 | `ppe`        | PhonePe (legacy) |
 | `amazonpay`  | Amazon Pay       |
+
+### Agentic commerce
+
+Agentic commerce (`in.breeze.shop`) lets the shopper search for products, build a cart and check out, all inside your app. You open it with the same `Blaze` calls as one-click checkout (`initiate`, `process`, `terminate`); only the payloads, and what comes back, differ.
+
+#### Initiate agentic commerce
+
+```swift
+var initiatePayload: [String: Any] = [:]
+initiatePayload["action"] = "initiate"
+initiatePayload["publisherId"] = "<PUBLISHER_ID>"
+initiatePayload["environment"] = "<ENVIRONMENT>"
+
+var initSDKPayload: [String: Any] = [:]
+initSDKPayload["requestId"] = UUID().uuidString
+initSDKPayload["service"] = "in.breeze.shop"
+initSDKPayload["payload"] = initiatePayload
+
+blaze.initiate(
+    context: self,
+    initiatePayload: initSDKPayload,
+    callbackFn: { event in
+        self.blazeCallbackHandler(event: event)
+    }
+)
+```
+
+| Key | Required | Value |
+| --- | --- | --- |
+| `publisherId` | Yes | Your publisher id |
+| `environment` | No | `beta` or `release`; picks which version of the journey loads. Defaults to `release` |
+
+`merchantId` and `shopUrl` are not used. `initiate` shows nothing on screen: it loads the journey in the background, so it opens quickly later. The callback then receives `eventName: "initiate"` with `status: "success"`, or `error: true` with the reason in `errorDetails`, for example `Missing publisherId in initiate payload`.
+
+#### Open the journey
+
+Once the `initiate` answer has arrived, call `process` to open the journey full screen. Calling it earlier crashes in this version (see 2.2).
+
+```swift
+var processPayload: [String: Any] = [:]
+processPayload["action"] = "launch"
+
+var processSDKPayload: [String: Any] = [:]
+processSDKPayload["requestId"] = UUID().uuidString
+processSDKPayload["service"] = "in.breeze.shop"
+processSDKPayload["payload"] = processPayload
+
+blaze.process(payload: processSDKPayload)
+```
+
+The callback receives `eventName: "eventStream"` with `payload.event` set to `ProcessStarted`.
+
+#### What your app receives from agentic commerce
+
+| `payload.eventName` | When it is sent |
+| --- | --- |
+| `initiate` | In answer to `initiate` |
+| `eventStream`, with `payload.event` `ProcessStarted` | When the journey opens, in answer to `process` |
+| `process`, with `error: true` | When the `process` payload could not be read |
+
+#### Terminate agentic commerce
+
+`terminate` works as in Step 4 and removes the journey. To open it again after `terminate`, create a new `Blaze` instance.
 
 ## Example
 
