@@ -47,6 +47,9 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.webView.onSafeAreaChange = { [weak self] in
             self?.sendSafeMarginIfChanged()
         }
+        self.webView.isOpaque = false
+        self.webView.backgroundColor = .clear
+        self.webView.scrollView.backgroundColor = .clear
 
         self.sendEvent(event: "initiate", payload: initiatePayload)
         self.loadFrame()
