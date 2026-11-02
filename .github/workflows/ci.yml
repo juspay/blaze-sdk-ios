@@ -67,3 +67,61 @@ jobs:
         with:
           name: test-results
           path: Example/TestResults.xcresult
+
+  spm:
+    name: Build & Test with Swift Package Manager
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Package.swift as the root project
+        run: rm _Pods.xcodeproj
+
+      - name: Environment info
+        run: |
+          xcodebuild -version
+          xcodebuild -list
+
+      - name: Build and test the package
+        run: |
+          set -o pipefail
+          DEVICE=$(xcrun simctl list devices available --json | jq -r '[.devices | to_entries[] | select(.key | contains("iOS")) | .value[] | select(.isAvailable and (.name | startswith("iPhone")))] | last | .name')
+          if [ -z "$DEVICE" ] || [ "$DEVICE" = "null" ]; then
+            echo "::error::No available iPhone simulator found on this runner"
+            xcrun simctl list devices
+            exit 1
+          fi
+          echo "Using simulator: $DEVICE"
+          xcodebuild test \
+            -scheme BlazeSDK \
+            -destination "platform=iOS Simulator,name=$DEVICE" \
+            -derivedDataPath DerivedData \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify
+
+      - name: Privacy manifest is in the package's resource bundle
+        run: |
+          MANIFEST=$(find DerivedData/Build/Products -path '*/BlazeSDK_BlazeSDK.bundle/PrivacyInfo.xcprivacy' -print -quit)
+          if [ -z "$MANIFEST" ]; then
+            echo "::error::PrivacyInfo.xcprivacy is missing from BlazeSDK_BlazeSDK.bundle"
+            exit 1
+          fi
+          echo "Found $MANIFEST"
+
+  xcframework:
+    name: XCFramework and SBOM
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: xcodebuild -version
+
+      - name: Build the XCFramework
+        env:
+          APPLE_DIST_IDENTITY: "-"
+        run: bash scripts/build-xcframework.sh 0.0.0
+
+      - name: Generate the SBOM
+        run: bash scripts/sbom.sh 0.0.0 > "$RUNNER_TEMP/BlazeSDK.cdx.json"

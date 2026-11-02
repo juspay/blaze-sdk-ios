@@ -18,6 +18,30 @@ Follow the below steps to integrate Blaze SDK into your iOS application:
 
 ### Step 1: Obtaining the Blaze SDK
 
+Add BlazeSDK with Swift Package Manager or CocoaPods. Both include the SDK's privacy manifest (`PrivacyInfo.xcprivacy`).
+
+#### 1.1: Swift Package Manager
+
+Swift Package Manager needs Xcode 14 or later. In Xcode, choose **File > Add Package Dependencies…**, enter `https://github.com/juspay/blaze-sdk-ios.git`, choose the **Up to Next Major Version** rule and add the `BlazeSDK` product to your app target.
+
+If your project is built from a `Package.swift`, add the package and depend on its `BlazeSDK` product:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/juspay/blaze-sdk-ios.git", from: "<VERSION>")
+],
+targets: [
+    .target(
+        name: "<YOUR_TARGET>",
+        dependencies: [.product(name: "BlazeSDK", package: "blaze-sdk-ios")]
+    )
+]
+```
+
+Versions released before Swift Package Manager support are available through CocoaPods only.
+
+#### 1.2: CocoaPods
+
 BlazeSDK is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
@@ -29,6 +53,10 @@ Then run:
 ```bash
 pod install
 ```
+
+#### 1.3: Signed XCFramework
+
+Each [GitHub release](https://github.com/juspay/blaze-sdk-ios/releases) also attaches `BlazeSDK.xcframework.zip`: the SDK compiled and signed by Juspay, with its SHA-256 checksum and an SBOM. Add `BlazeSDK.xcframework` to your app target with **Embed & Sign**. To check a download, see [Verify a release](docs/verify-release.md).
 
 ### Step 2: Initialize the SDK
 

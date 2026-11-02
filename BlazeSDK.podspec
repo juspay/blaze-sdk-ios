@@ -11,6 +11,7 @@ Pod::Spec.new do |spec|
   spec.source                 = { :git => 'https://github.com/juspay/blaze-sdk-ios.git', :tag => spec.version.to_s }
   spec.ios.deployment_target  = '12.0'
   spec.source_files            = 'BlazeSDK/Classes/**/*'
+  spec.resource_bundles       = { 'BlazeSDK_Privacy' => ['BlazeSDK/Resources/PrivacyInfo.xcprivacy'] }
   spec.swift_version          = '5.0'
   spec.swift_versions         = ['5.0']
 end
