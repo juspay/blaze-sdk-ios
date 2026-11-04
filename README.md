@@ -262,6 +262,32 @@ This declares the URL schemes for UPI apps that the SDK may attempt to open. Wit
 | `ppe`        | PhonePe (legacy) |
 | `amazonpay`  | Amazon Pay       |
 
+## Shop assistant
+
+The shop assistant (`in.breeze.shop`) uses the same `Blaze` calls. Its `initiate` payload takes these keys:
+
+| Key | Required | Value |
+| --- | --- | --- |
+| `publisherId` | Yes | Your publisher id, from the Breeze team |
+| `environment` | No | `beta` or `release`; picks which version of the assistant loads. Defaults to `release` |
+
+The SDK reads `sdk.json` from `https://sdk.breeze.in/core/sdk.json`, unless the SDK build sets a different address. It must be served as `application/json` without a redirect. When it lists `allowedOrigins` for your `service` and `environment`, the SDK locks the web view to the origin of the page address plus those origins:
+
+```json
+{
+  "services": {
+    "in.breeze.shop": {
+      "frameUrls": { "beta": "https://shop.example.com/sdk" },
+      "allowedOrigins": { "beta": ["https://other.example.com"] }
+    }
+  }
+}
+```
+
+Every entry must be an https origin with no path, or nothing loads. Without `allowedOrigins`, the web view isn't locked. While it's locked, links to other origins and other URL schemes are blocked, and the page stays where it is. UPI payment links are handed to a UPI app before these rules apply. The `openApp` bridge method isn't available while the web view is locked.
+
+If the SDK cannot load the page, the `initiate` answer has `error: true`, `errorCode` and `errorSource`, and every later `process` gets the same error. See [Error codes](docs/error-codes.md).
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
