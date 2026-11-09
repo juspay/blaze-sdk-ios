@@ -23,6 +23,8 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     private var callbackFn: ([String: Any]) -> Void
     private var isTerminated: Bool = false
     private var lastSafeMargin: SafeMargin?
+    private var initiateFailure: FrameFailure?
+    private var frame: FrameConfig
 
     init(
         context: UIViewController, initiatePayload: [String: Any],
@@ -33,6 +35,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.initiatePayload = initiatePayload
         self.container = container
         self.callbackFn = callbackFn
+        self.frame = FrameConfig.from(payload: initiatePayload)
         super.init()
 
         let contentController = WKUserContentController()
@@ -40,9 +43,12 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
 
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
+        WebViewHardening.apply(to: config)
 
         self.webView = SafeAreaWebView(frame: .zero, configuration: config)
         self.webView.navigationDelegate = self
+        WebViewHardening.apply(to: self.webView)
+        self.webView.uiDelegate = self
         self.webView.scrollView.contentInsetAdjustmentBehavior = .never
         self.webView.onSafeAreaChange = { [weak self] in
             self?.sendSafeMarginIfChanged()
@@ -56,21 +62,61 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     }
 
     private func loadFrame() {
-        let fallbackUrl = getBaseUrl(payload: initiatePayload)
-        BlazeConfig.shared.resolveFrameUrl(
+        BlazeConfig.shared.resolveFrame(
             service: getService(payload: initiatePayload),
             environment: getEnvironment(payload: initiatePayload)
-        ) { [weak self] frameUrl in
-            guard let self = self, !self.isTerminated,
-                let url = URL(string: frameUrl ?? fallbackUrl)
-            else {
+        ) { [weak self] remote in
+            guard let self = self, !self.isTerminated else {
                 return
             }
-            self.webView.load(URLRequest(url: url))
+            self.renderFrame(remote)
+        }
+    }
+
+    private func renderFrame(_ remote: RemoteFrame?) {
+        var resolved: FrameConfig?
+        if let remote = remote {
+            if let origins = remote.allowedOrigins {
+                resolved = remote.frameUrl.flatMap { FrameConfig.locked(frameUrl: $0, origins: origins) }
+            } else {
+                resolved = FrameConfig(defaultUrl: remote.frameUrl ?? frame.defaultUrl, allowedOrigins: nil)
+            }
+        }
+        guard let frame = resolved else {
+            initiateFailure = remote?.frameUrl == nil ? .configUnavailable : .invalidAllowedOrigin
+            reportError(
+                eventName: "initiate", requestId: initiatePayload["requestId"] as? String ?? "")
+            return
+        }
+        self.frame = frame
+        guard let url = URL(string: frame.defaultUrl) else {
+            return
+        }
+        webView.load(URLRequest(url: url))
+    }
+
+    private func reportError(eventName: String, requestId: String) {
+        let response: [String: Any] = [
+            "requestId": requestId,
+            "service": getService(payload: initiatePayload),
+            "payload": [
+                "eventName": eventName,
+                "error": true,
+                "errorCode": initiateFailure?.code ?? "",
+                "errorSource": "sdk",
+                "errorDetails": initiateFailure?.details ?? "",
+            ],
+        ]
+        DispatchQueue.main.async {
+            self.callbackFn(response)
         }
     }
 
     func process(payload: [String: Any]) {
+        if initiateFailure != nil {
+            reportError(eventName: "process", requestId: payload["requestId"] as? String ?? "")
+            return
+        }
         self.sendEvent(event: "process", payload: payload)
     }
 
@@ -78,7 +124,26 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.sendEvent(event: "terminate", payload: [:])
         self.isTerminated = true
         DispatchQueue.main.async {
+            self.webView.stopLoading()
+            self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "Native")
             self.webView.removeFromSuperview()
+            self.clearOriginData()
+        }
+    }
+
+    private func clearOriginData() {
+        guard let origins = frame.allowedOrigins else {
+            return
+        }
+        let hosts = origins.compactMap { URL(string: $0)?.host?.lowercased() }
+        let store = webView.configuration.websiteDataStore
+        let types = WKWebsiteDataStore.allWebsiteDataTypes()
+        store.fetchDataRecords(ofTypes: types) { records in
+            let ours = records.filter { record in
+                let name = record.displayName.lowercased()
+                return hosts.contains { $0 == name || $0.hasSuffix("." + name) }
+            }
+            store.removeData(ofTypes: types, for: ours) {}
         }
     }
 
@@ -255,18 +320,18 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         ]
 
         switch methodName {
-        case "saveToStorage":
+        case "saveToStorage" where !frame.isRestricted:
             if let key = paramsJson["key"] as? String,
                 let value = paramsJson["value"] as? String
             {
                 invokeResult["methodResult"] = saveToStorage(
                     key: key, value: value)
             }
-        case "openApp":
+        case "openApp" where !frame.isRestricted:
             if let intentUri = paramsJson["intentUri"] as? String {
                 invokeResult["methodResult"] = openApp(payload: intentUri)
             }
-        case "getFromStorage":
+        case "getFromStorage" where !frame.isRestricted:
             if let key = paramsJson["key"] as? String {
                 let value = getFromStorage(key: key)
                 invokeResult["methodResult"] = ["key": key, "value": value]
@@ -291,15 +356,44 @@ extension BlazeWebView: WKNavigationDelegate {
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
         guard let url = navigationAction.request.url else {
-            decisionHandler(.allow)
+            decisionHandler(frame.isRestricted ? .cancel : .allow)
             return
         }
 
         if isUPIIntentUri(url), canOpen(payload: url.absoluteString) {
             let _ = openApp(payload: url.absoluteString)
             decisionHandler(.cancel)
-        } else {
-            decisionHandler(.allow)
+            return
         }
+
+        decisionHandler(frame.decide(url) == .allow ? .allow : .cancel)
+    }
+}
+
+extension BlazeWebView: WKUIDelegate {
+    func webView(
+        _ webView: WKWebView,
+        createWebViewWith configuration: WKWebViewConfiguration,
+        for navigationAction: WKNavigationAction,
+        windowFeatures: WKWindowFeatures
+    ) -> WKWebView? {
+        guard let url = navigationAction.request.url else {
+            return nil
+        }
+        if isUPIIntentUri(url), canOpen(payload: url.absoluteString) {
+            let _ = openApp(payload: url.absoluteString)
+        }
+        return nil
+    }
+
+    @available(iOS 15.0, *)
+    func webView(
+        _ webView: WKWebView,
+        requestMediaCapturePermissionFor origin: WKSecurityOrigin,
+        initiatedByFrame frame: WKFrameInfo,
+        type: WKMediaCaptureType,
+        decisionHandler: @escaping (WKPermissionDecision) -> Void
+    ) {
+        decisionHandler(.deny)
     }
 }

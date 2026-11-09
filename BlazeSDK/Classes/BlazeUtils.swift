@@ -39,10 +39,6 @@ func getService(payload: [String: Any]) -> String {
 }
 
 func getBaseUrl(payload: [String: Any]) -> String {
-    if getService(payload: payload) == "in.breeze.shop" {
-        return "https://shop.breeze.in/sdk"
-    }
-
     let environment = getEnvironment(payload: payload)
     if environment == "smbBeta" {
         return "https://app.beta.v2.breezesdk.store"
