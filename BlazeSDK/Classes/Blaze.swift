@@ -32,11 +32,13 @@ public class Blaze: NSObject {
     }
 
     public func process(payload: [String: Any]) {
-        self.webView.process(payload: payload)
+        self.webView?.process(payload: payload)
     }
 
     public func terminate() {
-        self.webView.terminate()
+        self.webView?.terminate()
+        self.webView = nil
+        self.isInitialized = false
     }
 
 }
