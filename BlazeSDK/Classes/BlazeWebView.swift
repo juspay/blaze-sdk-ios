@@ -124,7 +124,26 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.sendEvent(event: "terminate", payload: [:])
         self.isTerminated = true
         DispatchQueue.main.async {
+            self.webView.stopLoading()
+            self.webView.configuration.userContentController.removeScriptMessageHandler(forName: "Native")
             self.webView.removeFromSuperview()
+            self.clearOriginData()
+        }
+    }
+
+    private func clearOriginData() {
+        guard let origins = frame.allowedOrigins else {
+            return
+        }
+        let hosts = origins.compactMap { URL(string: $0)?.host?.lowercased() }
+        let store = webView.configuration.websiteDataStore
+        let types = WKWebsiteDataStore.allWebsiteDataTypes()
+        store.fetchDataRecords(ofTypes: types) { records in
+            let ours = records.filter { record in
+                let name = record.displayName.lowercased()
+                return hosts.contains { $0 == name || $0.hasSuffix("." + name) }
+            }
+            store.removeData(ofTypes: types, for: ours) {}
         }
     }
 
@@ -301,7 +320,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         ]
 
         switch methodName {
-        case "saveToStorage":
+        case "saveToStorage" where !frame.isRestricted:
             if let key = paramsJson["key"] as? String,
                 let value = paramsJson["value"] as? String
             {
@@ -312,7 +331,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
             if let intentUri = paramsJson["intentUri"] as? String {
                 invokeResult["methodResult"] = openApp(payload: intentUri)
             }
-        case "getFromStorage":
+        case "getFromStorage" where !frame.isRestricted:
             if let key = paramsJson["key"] as? String {
                 let value = getFromStorage(key: key)
                 invokeResult["methodResult"] = ["key": key, "value": value]
