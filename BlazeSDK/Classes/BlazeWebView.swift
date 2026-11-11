@@ -23,6 +23,9 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
     private var callbackFn: ([String: Any]) -> Void
     private var isTerminated: Bool = false
     private var lastSafeMargin: SafeMargin?
+    private var captureObservers: [NSObjectProtocol] = []
+    private var isAppInactive: Bool = false
+    private var captureShield: UIView?
     private var initiateFailure: FrameFailure?
     private var frame: FrameConfig
 
@@ -125,6 +128,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         self.isTerminated = true
         DispatchQueue.main.async {
             self.webView.removeFromSuperview()
+            self.releaseScreen()
         }
     }
 
@@ -240,6 +244,53 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
             self.webView.frame = host.bounds
             self.webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             host.addSubview(self.webView)
+            self.protectScreen()
+        }
+    }
+
+    private func protectScreen() {
+        guard frame.isRestricted, captureObservers.isEmpty else {
+            return
+        }
+        captureObservers = [
+            observe(UIScreen.capturedDidChangeNotification, inactive: nil),
+            observe(UIApplication.willResignActiveNotification, inactive: true),
+            observe(UIApplication.didBecomeActiveNotification, inactive: false),
+        ]
+        updateCaptureShield()
+    }
+
+    private func observe(_ name: Notification.Name, inactive: Bool?) -> NSObjectProtocol {
+        return NotificationCenter.default.addObserver(
+            forName: name, object: nil, queue: .main
+        ) { [weak self] _ in
+            if let inactive = inactive {
+                self?.isAppInactive = inactive
+            }
+            self?.updateCaptureShield()
+        }
+    }
+
+    private func releaseScreen() {
+        captureObservers.forEach { NotificationCenter.default.removeObserver($0) }
+        captureObservers = []
+        isAppInactive = false
+        captureShield?.removeFromSuperview()
+        captureShield = nil
+    }
+
+    private func updateCaptureShield() {
+        let isCaptured = (webView.window?.screen ?? UIScreen.main).isCaptured
+        let shouldCover = isCaptured || isAppInactive
+        if shouldCover && captureShield == nil {
+            let shield = UIView(frame: webView.bounds)
+            shield.backgroundColor = .black
+            shield.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            webView.addSubview(shield)
+            captureShield = shield
+        } else if !shouldCover {
+            captureShield?.removeFromSuperview()
+            captureShield = nil
         }
     }
 
@@ -258,6 +309,7 @@ class BlazeWebView: NSObject, WKScriptMessageHandler {
         DispatchQueue.main.async {
             self.webView.removeFromSuperview()
             self.webView.frame = .zero
+            self.releaseScreen()
         }
     }
 
